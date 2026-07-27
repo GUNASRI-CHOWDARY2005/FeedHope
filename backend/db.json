@@ -1,0 +1,197 @@
+{
+  "users": [
+    {
+      "user_id": "admin-1",
+      "full_name": "System Admin",
+      "email": "admin@feedhope.org",
+      "app_role": "admin"
+    },
+    {
+      "user_id": "citizen-1",
+      "full_name": "Jane Doe",
+      "email": "jane@example.com",
+      "app_role": "citizen"
+    },
+    {
+      "user_id": "vol-1",
+      "full_name": "Alex Volunteer",
+      "email": "alex@example.com",
+      "app_role": "volunteer",
+      "is_available": true,
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    },
+    {
+      "user_id": "vol-2",
+      "full_name": "Sam Helper",
+      "email": "sam@example.com",
+      "app_role": "volunteer",
+      "is_available": true,
+      "latitude": 37.7849,
+      "longitude": -122.4094
+    },
+    {
+      "user_id": "ngo-1",
+      "full_name": "Hope Shelter Manager",
+      "email": "contact@hopeshelter.org",
+      "app_role": "ngo",
+      "ngo_name": "Hope Shelter SF",
+      "ngo_address": "123 Hope St, San Francisco, CA",
+      "ngo_latitude": 37.7649,
+      "ngo_longitude": -122.4294,
+      "total_beds": 50,
+      "available_beds": 12
+    },
+    {
+      "user_id": "ngo-2",
+      "full_name": "Safe Haven Admin",
+      "email": "admin@safehaven.org",
+      "app_role": "ngo",
+      "ngo_name": "Safe Haven Downtown",
+      "ngo_address": "456 Safe Ave, San Francisco, CA",
+      "ngo_latitude": 37.7949,
+      "ngo_longitude": -122.3994,
+      "total_beds": 30,
+      "available_beds": 2
+    },
+    {
+      "user_id": "user-1781279387074",
+      "email": "gunasrichowdary86@gmail.com",
+      "full_name": "gunasrichowdary86",
+      "app_role": "citizen"
+    },
+    {
+      "user_id": "user-1781280675923",
+      "email": "ngo@feedhope.org",
+      "full_name": "ngo",
+      "app_role": "citizen"
+    }
+  ],
+  "rescues": [
+    {
+      "id": "req-1",
+      "description": "Elderly man sleeping on a bench, looks very cold and unresponsive.",
+      "severity": "critical",
+      "citizen_id": "citizen-1",
+      "citizen_name": "Jane Doe",
+      "latitude": 37.775,
+      "longitude": -122.418,
+      "address": "Civic Center Plaza, San Francisco",
+      "status": "volunteer_en_route",
+      "assigned_volunteer_id": "vol-1",
+      "assigned_volunteer_name": "Alex Volunteer",
+      "assigned_ngo_id": "ngo-1",
+      "assigned_ngo_name": "Hope Shelter SF",
+      "ngo_address": "123 Hope St, San Francisco, CA",
+      "ngo_latitude": 37.7649,
+      "ngo_longitude": -122.4294,
+      "priority_score": 100,
+      "created_at": "2026-06-12T15:34:39.218Z"
+    },
+    {
+      "id": "req-2",
+      "description": "Person asking for warm clothes and food.",
+      "severity": "low",
+      "citizen_id": "citizen-1",
+      "citizen_name": "Jane Doe",
+      "latitude": 37.785,
+      "longitude": -122.408,
+      "address": "Union Square, San Francisco",
+      "status": "completed",
+      "assigned_volunteer_id": "vol-2",
+      "assigned_volunteer_name": "Sam Helper",
+      "assigned_ngo_id": "ngo-2",
+      "assigned_ngo_name": "Safe Haven Downtown",
+      "ngo_address": "456 Safe Ave, San Francisco, CA",
+      "ngo_latitude": 37.7949,
+      "ngo_longitude": -122.3994,
+      "priority_score": 20,
+      "created_at": "2026-06-11T15:49:39.220Z",
+      "completed_at": "2026-06-11T17:49:39.220Z"
+    },
+    {
+      "description": "Need a NGO",
+      "severity": "medium",
+      "notes": "",
+      "address": "INS Adyar, Varuna Salai, CMWSSB Division 60, Ward 60, Zone 5 Royapuram, Chennai, Tamil Nadu, 600009, India",
+      "latitude": 13.0776,
+      "longitude": 80.2917,
+      "citizen_id": "citizen-1",
+      "citizen_name": "Jane Doe",
+      "image_url": "blob:http://localhost:5173/763b185a-1cd4-42a2-82f7-9638624db00a",
+      "id": "req-1781280468666",
+      "status": "volunteer_en_route",
+      "priority_score": 50,
+      "created_at": "2026-06-12T16:07:48.666Z",
+      "assigned_ngo_id": "ngo-1",
+      "assigned_ngo_name": "Hope Shelter SF",
+      "ngo_address": "123 Hope St, San Francisco, CA",
+      "ngo_latitude": 37.7649,
+      "ngo_longitude": -122.4294,
+      "assigned_volunteer_id": "vol-1",
+      "assigned_volunteer_name": "Alex Volunteer"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1",
+      "user_id": "vol-1",
+      "title": "New Mission Assigned",
+      "message": "You have been assigned to a critical rescue at Civic Center Plaza.",
+      "type": "urgent",
+      "read": true,
+      "rescue_request_id": "req-1",
+      "created_at": "2026-06-12T15:35:39.220Z"
+    },
+    {
+      "id": "notif-1781280468667-ngo",
+      "user_id": "ngo-1",
+      "title": "New Rescue Assigned",
+      "message": "A medium severity rescue has been assigned to your shelter. Please assign a volunteer.",
+      "type": "info",
+      "read": true,
+      "rescue_request_id": "req-1781280468666",
+      "created_at": "2026-06-12T16:07:48.667Z"
+    },
+    {
+      "id": "notif-1781280727511-vol",
+      "user_id": "vol-1",
+      "title": "Rescue Mission Requested",
+      "message": "You have been requested for a medium severity rescue mission by Hope Shelter SF.",
+      "type": "info",
+      "read": true,
+      "rescue_request_id": "req-1781280468666",
+      "created_at": "2026-06-12T16:12:07.511Z"
+    },
+    {
+      "id": "notif-1781280741748-ngo-accept",
+      "user_id": "ngo-1",
+      "title": "Mission Accepted",
+      "message": "Volunteer Alex Volunteer has accepted the mission and is en route.",
+      "type": "success",
+      "read": false,
+      "rescue_request_id": "req-1781280468666",
+      "created_at": "2026-06-12T16:12:21.748Z"
+    },
+    {
+      "id": "notif-1781280741748-cit-status",
+      "user_id": "citizen-1",
+      "title": "Rescue Status Updated",
+      "message": "Your report status updated to: volunteer en route.",
+      "type": "info",
+      "read": true,
+      "rescue_request_id": "req-1781280468666",
+      "created_at": "2026-06-12T16:12:21.748Z"
+    }
+  ],
+  "chatbotLogs": [
+    {
+      "id": "chat-1781279670243",
+      "user_id": "vol-1",
+      "user_role": "volunteer",
+      "user_message": "hi",
+      "bot_response": "Thank you for volunteering! Keep your status Online to receive missions. Remember to update the rescue status as you progress (Located -> Picked Up -> Arrived).",
+      "timestamp": "2026-06-12T15:54:30.243Z"
+    }
+  ]
+}
