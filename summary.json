@@ -1,0 +1,161 @@
+{
+    "metrics": {
+        "http_req_receiving": {
+            "p(95)": 0.9641299999999999,
+            "avg": 0.2828004797896819,
+            "min": 0,
+            "med": 0,
+            "max": 1.9961,
+            "p(90)": 0.86316
+        },
+        "http_req_duration": {
+            "avg": 305.5735868024965,
+            "min": 0,
+            "med": 297.2704,
+            "max": 675.8517,
+            "p(90)": 553.82356,
+            "p(95)": 590.57441,
+            "thresholds": {
+                "p(95)<1500": false
+            }
+        },
+        "iterations": {
+            "count": 3043,
+            "rate": 48.29712832671112
+        },
+        "http_reqs": {
+            "count": 15215,
+            "rate": 241.4856416335556
+        },
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
+        },
+        "vus": {
+            "value": 1,
+            "min": 1,
+            "max": 100
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 15215,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 305.5735868024965,
+            "min": 0,
+            "med": 297.2704,
+            "max": 675.8517,
+            "p(90)": 553.82356,
+            "p(95)": 590.57441
+        },
+        "data_sent": {
+            "rate": 25404.28949985005,
+            "count": 1600618
+        },
+        "checks": {
+            "passes": 15215,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_sending": {
+            "max": 2.0016,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.008797272428524485,
+            "min": 0,
+            "med": 0
+        },
+        "http_req_waiting": {
+            "avg": 305.2819890502793,
+            "min": 0,
+            "med": 296.9277,
+            "max": 675.1304,
+            "p(90)": 553.44182,
+            "p(95)": 590.35608
+        },
+        "http_req_blocked": {
+            "p(95)": 0,
+            "avg": 0.09627746302990477,
+            "min": 0,
+            "med": 0,
+            "max": 16.9951,
+            "p(90)": 0
+        },
+        "vus_max": {
+            "value": 100,
+            "min": 100,
+            "max": 100
+        },
+        "http_req_connecting": {
+            "max": 5.5121,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.01025875123233651,
+            "min": 0,
+            "med": 0
+        },
+        "data_received": {
+            "count": 39224270,
+            "rate": 622549.9841313063
+        },
+        "iteration_duration": {
+            "min": 508.8969,
+            "med": 1977.6483,
+            "max": 3713.6501,
+            "p(90)": 3277.324320000001,
+            "p(95)": 3444.79228,
+            "avg": 2028.8380050936562
+        }
+    },
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "Health check status is 200": {
+                    "path": "::Health check status is 200",
+                    "id": "3e30010932b84a4a277cfcbc29317ed1",
+                    "passes": 3043,
+                    "fails": 0,
+                    "name": "Health check status is 200"
+                },
+                "Get users status is 200": {
+                    "name": "Get users status is 200",
+                    "path": "::Get users status is 200",
+                    "id": "d3b5be0e38e0f9f423fc9cad34ce7d0f",
+                    "passes": 3043,
+                    "fails": 0
+                },
+                "Get rescues status is 200": {
+                    "fails": 0,
+                    "name": "Get rescues status is 200",
+                    "path": "::Get rescues status is 200",
+                    "id": "8a5a30e706816610928bde8ffd1fad97",
+                    "passes": 3043
+                },
+                "Get notifications status is 200": {
+                    "id": "ad2092bf9d40b515eb16cafcfd414992",
+                    "passes": 3043,
+                    "fails": 0,
+                    "name": "Get notifications status is 200",
+                    "path": "::Get notifications status is 200"
+                },
+                "Chatbot response status is 200": {
+                    "name": "Chatbot response status is 200",
+                    "path": "::Chatbot response status is 200",
+                    "id": "661717cb6890c4284165b7873b492296",
+                    "passes": 3043,
+                    "fails": 0
+                }
+            },
+        "name": ""
+    }
+}

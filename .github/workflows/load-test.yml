@@ -1,0 +1,50 @@
+name: API Load Testing Pipeline
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/load-test.yml'
+  workflow_dispatch:
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+    name: Execute k6 API Load Test (100 VUs / 1 min)
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm ci || npm install
+
+      - name: Start Backend Server in Background
+        run: |
+          cd backend
+          npm start &
+          sleep 5
+
+      - name: Verify Backend Health
+        run: |
+          curl -f http://localhost:5000/ || exit 1
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 Load Test
+        run: |
+          k6 run --summary-export=summary.json backend/scripts/load-test.js
+        env:
+          BACKEND_URL: http://localhost:5000
+
+      - name: Parse & Publish Load Test Metrics
+        if: always()
+        run: |
+          node backend/scripts/parseK6Summary.js
