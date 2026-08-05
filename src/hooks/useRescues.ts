@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { RescueRequest } from '../types';
+import { API_BASE_URL } from '../config';
 
 export const useRescues = () => {
   const queryClient = useQueryClient();
@@ -7,7 +8,7 @@ export const useRescues = () => {
   const { data: rescues = [], isLoading } = useQuery({
     queryKey: ['rescues'],
     queryFn: async () => {
-      const res = await fetch('/api/rescues');
+      const res = await fetch(`${API_BASE_URL}/api/rescues`);
       if (!res.ok) throw new Error('Failed to fetch rescues');
       const data: RescueRequest[] = await res.json();
       return data.sort(
@@ -21,7 +22,7 @@ export const useRescues = () => {
     mutationFn: async (
       newRescue: Omit<RescueRequest, 'id' | 'status' | 'priority_score' | 'created_at'>
     ) => {
-      const res = await fetch('/api/rescues', {
+      const res = await fetch(`${API_BASE_URL}/api/rescues`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newRescue)
@@ -37,7 +38,7 @@ export const useRescues = () => {
 
   const updateRescueMutation = useMutation({
     mutationFn: async (updates: Partial<RescueRequest> & { id: string }) => {
-      const res = await fetch(`/api/rescues/${updates.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/rescues/${updates.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
@@ -62,7 +63,7 @@ export const useRescueTracking = (id: string) => {
   return useQuery({
     queryKey: ['rescue', id],
     queryFn: async () => {
-      const res = await fetch(`/api/rescues/${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/rescues/${id}`);
       if (!res.ok) throw new Error('Rescue not found');
       return await res.json();
     },

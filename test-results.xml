@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="17.976">
+    <testsuite name="src/basic.test.tsx" timestamp="2026-08-05T08:42:08.118Z" hostname="GUNASRI-CHOWDARY" tests="1" failures="0" errors="0" skipped="0" time="0.1040135">
+        <testcase classname="src/basic.test.tsx" name="Splash Page Component &gt; renders the application title and branding text" time="0.1005042">
+        </testcase>
+    </testsuite>
+</testsuites>

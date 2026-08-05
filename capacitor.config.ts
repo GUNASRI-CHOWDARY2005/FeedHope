@@ -1,0 +1,15 @@
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.FeedHope.app',
+  appName: 'FeedHope',
+  webDir: 'dist',
+
+  plugins: {
+    FirebaseAuthentication: {
+      providers: ['google.com']
+    }
+  }
+};
+
+export default config;

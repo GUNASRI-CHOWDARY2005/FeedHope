@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui';
 import { StatCard } from '../components/StatCard';
 import { useRescues } from '../hooks/useRescues';
 import { useQuery } from '@tanstack/react-query';
+import { API_BASE_URL } from '../config';
 import {
   PieChart,
   Pie,
@@ -13,14 +14,15 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer } from
-'recharts';
+  ResponsiveContainer
+} from
+  'recharts';
 export function AdminDashboard() {
   const { rescues } = useRescues();
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await fetch('/api/users');
+      const res = await fetch(`${API_BASE_URL}/api/users`);
       if (!res.ok) throw new Error('Failed to fetch users');
       return await res.json();
     }
@@ -31,44 +33,44 @@ export function AdminDashboard() {
   const completedRescues = rescues.filter((r) => r.status === 'completed');
   const criticalRescues = rescues.filter((r) => r.severity === 'critical');
   const severityData = [
-  {
-    name: 'Low',
-    value: rescues.filter((r) => r.severity === 'low').length,
-    color: '#22c55e'
-  },
-  {
-    name: 'Medium',
-    value: rescues.filter((r) => r.severity === 'medium').length,
-    color: '#eab308'
-  },
-  {
-    name: 'High',
-    value: rescues.filter((r) => r.severity === 'high').length,
-    color: '#f97316'
-  },
-  {
-    name: 'Critical',
-    value: rescues.filter((r) => r.severity === 'critical').length,
-    color: '#ef4444'
-  }];
+    {
+      name: 'Low',
+      value: rescues.filter((r) => r.severity === 'low').length,
+      color: '#22c55e'
+    },
+    {
+      name: 'Medium',
+      value: rescues.filter((r) => r.severity === 'medium').length,
+      color: '#eab308'
+    },
+    {
+      name: 'High',
+      value: rescues.filter((r) => r.severity === 'high').length,
+      color: '#f97316'
+    },
+    {
+      name: 'Critical',
+      value: rescues.filter((r) => r.severity === 'critical').length,
+      color: '#ef4444'
+    }];
 
   const statusData = [
-  {
-    name: 'Reported',
-    count: rescues.filter((r) => r.status === 'reported').length
-  },
-  {
-    name: 'Assigned',
-    count: rescues.filter((r) => r.status === 'ngo_assigned').length
-  },
-  {
-    name: 'En Route',
-    count: rescues.filter((r) => r.status === 'volunteer_en_route').length
-  },
-  {
-    name: 'Completed',
-    count: completedRescues.length
-  }];
+    {
+      name: 'Reported',
+      count: rescues.filter((r) => r.status === 'reported').length
+    },
+    {
+      name: 'Assigned',
+      count: rescues.filter((r) => r.status === 'ngo_assigned').length
+    },
+    {
+      name: 'En Route',
+      count: rescues.filter((r) => r.status === 'volunteer_en_route').length
+    },
+    {
+      name: 'Completed',
+      count: completedRescues.length
+    }];
 
   return (
     <div className="space-y-8">
@@ -85,17 +87,17 @@ export function AdminDashboard() {
           title="Active Rescues"
           value={activeRescues.length}
           icon={Activity} />
-        
+
         <StatCard
           title="Completed Rescues"
           value={completedRescues.length}
           icon={CheckCircle} />
-        
+
         <StatCard
           title="Critical Cases"
           value={criticalRescues.length}
           icon={AlertTriangle} />
-        
+
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -114,9 +116,9 @@ export function AdminDashboard() {
                   outerRadius={80}
                   paddingAngle={5}
                   dataKey="value">
-                  
+
                   {severityData.map((entry, index) =>
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   )}
                 </Pie>
                 <Tooltip />
@@ -124,13 +126,13 @@ export function AdminDashboard() {
             </ResponsiveContainer>
             <div className="flex justify-center gap-4 mt-4">
               {severityData.map((d) =>
-              <div key={d.name} className="flex items-center gap-2 text-sm">
+                <div key={d.name} className="flex items-center gap-2 text-sm">
                   <div
-                  className="w-3 h-3 rounded-full"
-                  style={{
-                    backgroundColor: d.color
-                  }} />
-                
+                    className="w-3 h-3 rounded-full"
+                    style={{
+                      backgroundColor: d.color
+                    }} />
+
                   {d.name}
                 </div>
               )}
@@ -150,18 +152,18 @@ export function AdminDashboard() {
                   fontSize={12}
                   tickLine={false}
                   axisLine={false} />
-                
+
                 <YAxis fontSize={12} tickLine={false} axisLine={false} />
                 <Tooltip
                   cursor={{
                     fill: 'transparent'
                   }} />
-                
+
                 <Bar
                   dataKey="count"
                   fill="hsl(var(--primary))"
                   radius={[4, 4, 0, 0]} />
-                
+
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -187,7 +189,7 @@ export function AdminDashboard() {
               </thead>
               <tbody>
                 {rescues.slice(0, 10).map((rescue) =>
-                <tr key={rescue.id} className="border-b last:border-0">
+                  <tr key={rescue.id} className="border-b last:border-0">
                     <td className="px-4 py-3 font-medium">
                       {rescue.id.split('-')[1]}
                     </td>

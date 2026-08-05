@@ -26,7 +26,7 @@ try {
       console.log(`[Email Service] GMAIL_USER active: ${process.env.GMAIL_USER}`);
     }
   }
-} catch (e) {}
+} catch (e) { }
 
 import { database } from './database.js';
 import { assignRescueEngine } from './services/assignEngine.js';
@@ -34,7 +34,7 @@ import { generateChatbotResponse } from './services/chatbot.js';
 import { sendVerificationEmail } from './services/email.js';
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 // Backend Server Entry Point - Live Dual Persistence & SSL Port 465 Transport Fallback
 
 app.use(cors());
@@ -76,10 +76,16 @@ app.post('/api/users', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'email is required' });
   }
 
+  // Normalize email
+  userPayload.email = userPayload.email.toLowerCase().trim();
+
   // Look up user by email
   let existing = await database.getUserByEmail(userPayload.email);
 
   if (existing) {
+    if (userPayload.password && existing.password && existing.password !== userPayload.password) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
     const updatedUser = { ...existing, ...userPayload };
     if (updatedUser.email === 'gunasrichowdary86@gmail.com') {
       updatedUser.app_role = 'admin';
@@ -91,6 +97,7 @@ app.post('/api/users', asyncHandler(async (req, res) => {
       user_id: userPayload.user_id || `user-${Date.now()}`,
       full_name: userPayload.full_name || userPayload.email.split('@')[0],
       email: userPayload.email,
+      password: userPayload.password || '',
       ...userPayload
     };
     if (newUser.email === 'gunasrichowdary86@gmail.com') {
@@ -259,6 +266,6 @@ app.post('/api/auth/send-otp', asyncHandler(async (req, res) => {
 }));
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Backend server is running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Backend server is running on port ${PORT}`);
 });

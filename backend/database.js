@@ -9,15 +9,69 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DB_FILE_PATH = path.join(__dirname, 'local_db.json');
 
+// Load environment variables from .env file before initializing MongoDB connection URI
+try {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    const envConfig = fs.readFileSync(envPath, 'utf-8');
+    envConfig.split('\n').forEach((line) => {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        const [key, ...vals] = trimmed.split('=');
+        if (key && vals.length > 0) {
+          process.env[key.trim()] = vals.join('=').trim().replace(/^["']|["']$/g, '');
+        }
+      }
+    });
+    console.log('[Database] Loaded environment configuration from:', envPath);
+  }
+} catch (e) { }
+
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://gunasri:gunasri@cluster0.k9ogoa5.mongodb.net/feedhope?retryWrites=true&w=majority';
+console.log('[Database] Using connection string:', MONGODB_URI.replace(/:[^@/]+@/, ':****@'));
 
 // Connect to MongoDB Cloud Database asynchronously with retry & fallback
 console.log('[Database] Connecting to MongoDB Cloud Database (cluster0.k9ogoa5.mongodb.net)...');
+
+const syncLocalDataToMongo = async () => {
+  try {
+    console.log('[Database] Syncing local database (local_db.json) with MongoDB Atlas...');
+    loadMemoryDb();
+
+    if (memoryDb.users && memoryDb.users.length > 0) {
+      for (const u of memoryDb.users) {
+        const { _id, __v, ...updateData } = u;
+        await User.findOneAndUpdate(
+          { user_id: u.user_id },
+          updateData,
+          { upsert: true }
+        );
+      }
+      console.log(`[Database] Synced ${memoryDb.users.length} users to MongoDB.`);
+    }
+
+    if (memoryDb.rescues && memoryDb.rescues.length > 0) {
+      for (const r of memoryDb.rescues) {
+        const { _id, __v, ...updateData } = r;
+        await Rescue.findOneAndUpdate(
+          { id: r.id },
+          updateData,
+          { upsert: true }
+        );
+      }
+      console.log(`[Database] Synced ${memoryDb.rescues.length} rescues to MongoDB.`);
+    }
+    console.log('[Database] Local database synchronization complete!');
+  } catch (err) {
+    console.error('[Database] Sync error:', err.message);
+  }
+};
 
 mongoose.connection.on('connected', () => {
   console.log('\n==================================================');
   console.log('[Database] SUCCESSFULLY CONNECTED TO MONGODB ATLAS!');
   console.log('==================================================\n');
+  syncLocalDataToMongo();
 });
 
 const connectMongo = async () => {
@@ -238,12 +292,12 @@ export const database = {
   getUserByEmail: async (email) => {
     try {
       if (mongoose.connection.readyState === 1) {
-        const doc = await User.findOne({ email }).lean();
+        const doc = await User.findOne({ email: { $regex: new RegExp('^' + (email || '').trim() + '$', 'i') } }).lean();
         if (doc) return doc;
       }
     } catch (e) {}
     loadMemoryDb();
-    return memoryDb.users.find(u => u.email && u.email.toLowerCase() === (email || '').toLowerCase()) || null;
+    return memoryDb.users.find(u => u.email && u.email.toLowerCase() === (email || '').toLowerCase().trim()) || null;
   },
 
   saveUser: async (user) => {

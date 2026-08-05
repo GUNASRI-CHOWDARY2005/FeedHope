@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "516273224312",
+    "project_id": "feedhope-c7768",
+    "storage_bucket": "feedhope-c7768.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516273224312:android:6379b31ee667dbcc85cb8d",
+        "android_client_info": {
+          "package_name": "com.FeedHope.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516273224312-si7gpocbbrt4drtejifhot98l2af296o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.FeedHope.app",
+            "certificate_hash": "0288789810071fc391fe4fd812593451f4f35652"
+          }
+        },
+        {
+          "client_id": "516273224312-shna3f7trbcslchdhbc691j367q7kr7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPeJimkxAgQyIyWBCxYAt7yxIOZZJoNzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516273224312-shna3f7trbcslchdhbc691j367q7kr7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

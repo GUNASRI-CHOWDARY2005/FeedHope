@@ -7,6 +7,7 @@ import { useRescues } from '../hooks/useRescues';
 import { useAuth } from '../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { API_BASE_URL } from '../config';
 
 interface VolunteerAssignerProps {
   volunteers: any[];
@@ -98,7 +99,7 @@ export function NGODashboard() {
   const { data: allUsers = [] } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await fetch('/api/users');
+      const res = await fetch(`${API_BASE_URL}/api/users`);
       if (!res.ok) throw new Error('Failed to fetch users');
       return await res.json();
     }
@@ -118,7 +119,7 @@ export function NGODashboard() {
       'traveling_to_ngo'
     ].includes(r.status)
   );
-  
+
   const awaitingVerification = myRescues.filter(
     (r) => r.status === 'arrived_at_ngo'
   );

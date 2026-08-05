@@ -1,4 +1,5 @@
 import { UserProfile } from '../types';
+import { API_BASE_URL } from '../config';
 
 const SESSION_KEY = 'feedhope_session';
 
@@ -7,7 +8,7 @@ export const authService = {
     const userId = localStorage.getItem(SESSION_KEY);
     if (!userId) return null;
     try {
-      const res = await fetch(`/api/users/${userId}`);
+      const res = await fetch(`${API_BASE_URL}/api/users/${userId}`);
       if (!res.ok) {
         localStorage.removeItem(SESSION_KEY);
         return null;
@@ -18,11 +19,11 @@ export const authService = {
     }
   },
 
-  login: async ({ email, fullName }: { email: string; fullName?: string }): Promise<UserProfile> => {
-    const res = await fetch('/api/users', {
+  login: async ({ email, password, fullName }: { email: string; password?: string; fullName?: string }): Promise<UserProfile> => {
+    const res = await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, full_name: fullName })
+      body: JSON.stringify({ email, password, full_name: fullName })
     });
     if (!res.ok) {
       let errMsg = 'Failed to login/register user';
@@ -31,10 +32,10 @@ export const authService = {
         if (errJson && errJson.error) {
           errMsg = errJson.error;
         }
-      } catch (_) {}
+      } catch (_) { }
       throw new Error(errMsg);
     }
-    
+
     const user: UserProfile = await res.json();
     localStorage.setItem(SESSION_KEY, user.user_id);
     return user;
@@ -46,7 +47,7 @@ export const authService = {
 
   updateProfile: async (updates: Partial<UserProfile>): Promise<UserProfile> => {
     let currentUser = await authService.getCurrentUser();
-    
+
     if (!currentUser) {
       // Create a default session user if user onboarded directly without prior login
       const guestId = `user-${Date.now()}`;
@@ -59,8 +60,8 @@ export const authService = {
     }
 
     const updatedUser = { ...currentUser, ...updates };
-    
-    const res = await fetch('/api/users', {
+
+    const res = await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedUser)
@@ -70,10 +71,10 @@ export const authService = {
       try {
         const errJson = await res.json();
         if (errJson && errJson.error) errMsg = errJson.error;
-      } catch (_) {}
+      } catch (_) { }
       throw new Error(errMsg);
     }
-    
+
     const saved: UserProfile = await res.json();
     localStorage.setItem(SESSION_KEY, saved.user_id);
     return saved;
