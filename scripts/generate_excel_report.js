@@ -146,11 +146,29 @@ function generateTestCase(suite, category, index) {
 }
 
 function generateReport() {
+  const args = process.argv.slice(2);
+  const targetSuite = args[0];
+
   console.log('📊 Starting Excel CSV report generation...');
+  
+  let targetSuites = suites;
+  let filename = 'FeedHope_Test_Report.csv';
+  
+  if (targetSuite) {
+    if (suites.includes(targetSuite)) {
+      targetSuites = [targetSuite];
+      const sanitizedSuite = targetSuite.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+      filename = `FeedHope_${sanitizedSuite}_Test_Report.csv`;
+    } else {
+      console.error(`Error: Unknown test suite "${targetSuite}". Expected one of: ${suites.join(', ')}`);
+      process.exit(1);
+    }
+  }
+
   const header = 'Suite,Category,Test Case ID,Test Description,Status,Duration (ms),Details / Assertions\n';
   let rows = [];
 
-  for (const suite of suites) {
+  for (const suite of targetSuites) {
     for (const category of categories) {
       // Generate exactly 30 test cases per category to sum up to 330 per suite
       for (let i = 1; i <= 30; i++) {
@@ -175,10 +193,10 @@ function generateReport() {
   }
 
   const outputContent = header + rows.join('\n');
-  const outputPath = path.join(process.cwd(), 'FeedHope_Test_Report.csv');
+  const outputPath = path.join(process.cwd(), filename);
   
   fs.writeFileSync(outputPath, outputContent, 'utf-8');
-  console.log(`✅ Success! Generated 1,320 test cases in: ${outputPath}`);
+  console.log(`✅ Success! Generated ${rows.length} test cases in: ${outputPath}`);
 }
 
 generateReport();

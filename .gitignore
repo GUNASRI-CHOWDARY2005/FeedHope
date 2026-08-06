@@ -28,3 +28,7 @@ backend/.env
 *.njsproj
 *.sln
 *.sw?
+
+# Test Reports
+FeedHope_Test_Report.csv
+FeedHope_*_Test_Report.csv

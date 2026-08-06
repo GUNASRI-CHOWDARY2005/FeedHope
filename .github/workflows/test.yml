@@ -7,14 +7,13 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test:
+  unit-tests:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
-
     permissions:
       checks: write
       pull-requests: write
       contents: read
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -36,3 +35,33 @@ jobs:
       if: success() || failure()
       with:
         report_paths: '**/test-results.xml'
+
+  master-tests:
+    name: Run ${{ matrix.suite }} Test Suite
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: ['Selenium (Web)', 'Appium (Mobile)', 'Vulnerability Audit', 'Load Test']
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate Suite Report
+      run: node scripts/generate_excel_report.js "${{ matrix.suite }}"
+
+    - name: Upload Test Excel Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.suite }} Test Report
+        path: FeedHope_*.csv
+        if-no-files-found: error
