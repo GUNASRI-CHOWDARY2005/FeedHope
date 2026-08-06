@@ -47,6 +47,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Clean existing reports
+      run: rm -f FeedHope_*Test_Report.csv FeedHope_Test_Report.csv
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
